@@ -14,7 +14,9 @@ Route::post('login', [AuthController::class, 'login']);
 
 route::middleware('auth:sanctum')->group(function() {
 
-    Route::get('user/{id}/document', [DocumentController::class, 'index']);
+    Route::get('user/{user_id}/document', [DocumentController::class, 'index']);
     Route::post('user/document', [DocumentController::class, 'store']);
+    Route::get('user/{user_id}/document/{year}', [DocumentController::class, 'show']);
+    Route::patch('user/{user_id}/document/{document_id}/edit', [DocumentController::class, 'update']);
 });
 
