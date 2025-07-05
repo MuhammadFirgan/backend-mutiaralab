@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string("doc_number");
             $table->text("doc_desc");
             $table->string("image_path");
-            $table->date("doc_year");
+            $table->year("doc_year");
             $table->timestamps();
         });
     }
