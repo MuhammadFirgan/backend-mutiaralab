@@ -109,6 +109,8 @@ class DocumentController extends Controller
     }
 
     public function update(Request $request, $user_id, $document_id) {
+        // laravel dak bisa nerima method put atau patch
+        // jadinya di body ditambahkan _method="PUT"
         $document = Document::with('user')
             ->where('user_id', $user_id)
             ->where('id', $document_id)
@@ -121,6 +123,7 @@ class DocumentController extends Controller
             ], 404);
         }
 
+
         $validator = Validator::make($request->all(), [
             'doc_name' => 'required|max:255',
             'doc_date' => 'required|max:255',
@@ -128,9 +131,8 @@ class DocumentController extends Controller
             'doc_desc' => 'required|max:255',
             'image_path' => 'required|file|max:5024|mimes:jpg,jpeg,png',
             'doc_year' => 'required|max:255',
+            
         ]);
-
-        @dd($request->all());
 
 
         if($validator->fails()) {
@@ -150,6 +152,7 @@ class DocumentController extends Controller
         $docDateObj = Carbon::createFromFormat('d-m-Y', $validatedData['doc_date']);
         $validatedData['doc_date'] = $docDateObj->format('Y-m-d');
         $validatedData['doc_year'] = $docDateObj->format('Y');
+        
 
         if ($request->hasFile('image_path')) {
             $file = $request->file('image_path');
@@ -170,6 +173,33 @@ class DocumentController extends Controller
         ], 200);
 
 
+    }
+
+    public function destroy($user_id, $document_id) {
+        $document = Document::with('user')
+            ->where('user_id', $user_id)
+            ->where('id', $document_id)
+            ->first();
+
+        if (!$document) {
+            return response()->json([
+                'success' => false,
+                'message' => "Document not found"
+            ], 404);
+        }
+
+        if ($document->image_path) {
+            $path = str_replace('/storage/', '', $document->image_path);
+            Storage::disk('public')->delete($path);
+        }
+
+        $document->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Document deleted successfully'
+        ], 200);
+        
     }
 
 
