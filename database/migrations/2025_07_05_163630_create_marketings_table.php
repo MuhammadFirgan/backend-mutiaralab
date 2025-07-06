@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('marketings', function (Blueprint $table) {
             $table->id();
-            $table->enum("name", ["admin", "customer", "marketing", "penyedia sampling", "koor teknis"])->default("customer");
+            $table->foreignId('customer_id');
+            // $table->foreignId('koor_teknis_id');
+            $table->string("tgl_kajian");
+            $table->string("ket_kajian");
+            $table->string("document_path");
             $table->timestamps();
         });
     }
@@ -23,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('marketings');
     }
 };

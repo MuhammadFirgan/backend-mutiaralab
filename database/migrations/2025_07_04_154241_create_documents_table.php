@@ -20,6 +20,8 @@ return new class extends Migration
             $table->text("doc_desc");
             $table->string("image_path");
             $table->year("doc_year");
+            // $table->foreignId("marketing_id")->constrained("marketing")->onDelete("cascade");
+            $table->foreignId("marketing_id");
             $table->timestamps();
         });
     }

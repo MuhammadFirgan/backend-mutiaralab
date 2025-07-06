@@ -33,6 +33,37 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'penyedia sampling'
             ],
+            [
+                'name' => 'koor teknis'
+            ],
+        ]);
+
+        User::insert([
+            [
+
+                "username" => "customer",
+                "password" => "customer",
+                "role_id" => 2
+            ],
+            [
+
+                "username" => "marketing",
+                "password" => "marketing",
+                "role_id" => 3
+            ],
+            [
+
+                "username" => "penyedia sampling",
+                "password" => "penyediasampling",
+                "role_id" => 4
+            ],
+            [
+
+                "username" => "admin",
+                "password" => "admin",
+                "role_id" => 1
+            ],
+            
         ]);
 
     }
