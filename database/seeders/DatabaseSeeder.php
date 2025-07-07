@@ -42,25 +42,25 @@ class DatabaseSeeder extends Seeder
             [
 
                 "username" => "customer",
-                "password" => "customer",
+                "password" => bcrypt("customer"),
                 "role_id" => 2
             ],
             [
 
                 "username" => "marketing",
-                "password" => "marketing",
+                "password" => bcrypt("marketing"),
                 "role_id" => 3
             ],
             [
 
                 "username" => "penyedia sampling",
-                "password" => "penyediasampling",
+                "password" => bcrypt("penyediasampling"),
                 "role_id" => 4
             ],
             [
 
                 "username" => "admin",
-                "password" => "admin",
+                "password" => bcrypt("admin"),
                 "role_id" => 1
             ],
             

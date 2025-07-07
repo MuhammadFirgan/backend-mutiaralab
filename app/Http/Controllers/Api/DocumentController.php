@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Document;
+use App\Models\marketing;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -40,6 +41,10 @@ class DocumentController extends Controller
             'doc_year' => 'required|max:255',
         ]);
 
+        $marketing = marketing::where('customer_id', $request->user()->id)->first();
+        @dd($marketing);
+
+       
 
         if($validator->fails()) {
             return response()->json([
@@ -78,6 +83,7 @@ class DocumentController extends Controller
             'doc_desc' => $validatedData["doc_desc"],
             'image_path' => $url,
             'doc_year' => $docYear,
+            // 'marketing_id' =>
         ]);
 
         return response()->json([
