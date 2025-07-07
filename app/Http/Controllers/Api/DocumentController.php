@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Document;
-use App\Models\marketing;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -41,24 +39,19 @@ class DocumentController extends Controller
             'doc_year' => 'required|max:255',
         ]);
 
-        $marketing = marketing::where('customer_id', $request->user()->id)->first();
-        @dd($marketing);
-
        
 
         if($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to add new document',
-                'data' => $validator->errors()
+                'data_customer' => $validator->errors()
             ], 401); 
         }
 
         $file = $request->file('image_path');
         $validatedData = $validator->validated();
        
-
-
 
         $originalName = $file->getClientOriginalName();
         $extension = pathinfo($originalName, PATHINFO_EXTENSION);
@@ -83,7 +76,7 @@ class DocumentController extends Controller
             'doc_desc' => $validatedData["doc_desc"],
             'image_path' => $url,
             'doc_year' => $docYear,
-            // 'marketing_id' =>
+            'status' => 'review'
         ]);
 
         return response()->json([
@@ -145,7 +138,7 @@ class DocumentController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to add new document',
-                'data' => $validator->errors()
+                'data_customer' => $validator->errors()
             ], 401); 
         }
 
@@ -175,7 +168,7 @@ class DocumentController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Document updated successfully',
-            'data' => $document
+            'data_customer' => $document
         ], 200);
 
 

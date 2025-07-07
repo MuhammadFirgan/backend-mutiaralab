@@ -13,6 +13,6 @@ class Document extends Model
     }
 
     public function marketing() {
-        return $this->belongsTo(Marketing::class);
+        return $this->hasOne(Marketing::class);
     }
 }
