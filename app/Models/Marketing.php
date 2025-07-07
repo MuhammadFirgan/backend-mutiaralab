@@ -8,7 +8,11 @@ class marketing extends Model
 {
     protected $guarded = ["id"];
 
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
     public function document() {
-        return $this->hasMany(Document::class);    
+        return $this->belongsTo(Document::class);    
     }
 }

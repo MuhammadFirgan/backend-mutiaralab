@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('marketings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('customer_id');
+            $table->foreignId('user_id');
+            $table->foreignId('document_id')->constrained('documents')->onDelete('cascade');
             // $table->foreignId('koor_teknis_id');
-            $table->string("tgl_kajian");
+            $table->date("tgl_kajian");
+            $table->enum("status", ["accept marketing", "decline marketing"]);
             $table->string("ket_kajian");
             $table->string("document_path");
             $table->timestamps();

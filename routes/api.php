@@ -2,11 +2,11 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DocumentController;
-use App\Http\Controllers\KoorTeknisController;
-use App\Http\Controllers\MarketingController;
-use App\Http\Controllers\PenyediaSamplingController;
-use App\Http\Controllers\PoTtdQuotationController;
-use App\Http\Controllers\QuotationController;
+use App\Http\Controllers\Api\KoorTeknisController;
+use App\Http\Controllers\Api\MarketingController;
+use App\Http\Controllers\Api\PenyediaSamplingController;
+use App\Http\Controllers\Api\PoTtdQuotationController;
+use App\Http\Controllers\Api\QuotationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,10 +28,9 @@ route::middleware('auth:sanctum')->group(function() {
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('marketing/{marketing_id}/document', [MarketingController::class, 'index']);
-    Route::get('', [MarketingController::class, 'show']);
-    Route::post('marketing/document', [MarketingController::class, 'store']);
-    Route::patch('', [MarketingController::class, 'update']);
-    Route::delete('', [MarketingController::class, 'destroy']);
+    Route::post('marketing/document/{document_id}', [MarketingController::class, 'store']);
+    Route::patch('marketing/{user_id}/document/{document_id}/edit', [MarketingController::class, 'update']);
+    Route::delete('marketing/{user_id}/document/{document_id}', [MarketingController::class, 'destroy']);
 });
 
 Route::middleware('auth:sanctum')->group(function() {
