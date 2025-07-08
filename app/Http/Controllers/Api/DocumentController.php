@@ -62,21 +62,17 @@ class DocumentController extends Controller
         $path = $file->storeAs('uploads', $storedName, 'public');
 
         $url = Storage::url($path);
-        $docDateObj = Carbon::createFromFormat('d-m-Y', $validatedData['doc_date']);
-        $docDate = $docDateObj->format('Y-m-d');
-
-        $docYear = $docDateObj->format('Y');
-
+        
 
         $createdData = Document::create([
             'user_id' => $request->user()->id,
             'doc_name' => $validatedData["doc_name"],
-            'doc_date' => $docDate,
+            'doc_date' => $validatedData['doc_date'],
             'doc_number' => $validatedData["doc_number"],
             'doc_desc' => $validatedData["doc_desc"],
             'image_path' => $url,
-            'doc_year' => $docYear,
-            'status' => 'review'
+            'doc_year' => $validatedData['doc_year'],
+            'status' => 'pending'
         ]);
 
         return response()->json([
@@ -145,12 +141,6 @@ class DocumentController extends Controller
         // $file = $request->file('image_path');
         $validatedData = $validator->validated();
        
-
-
-
-        $docDateObj = Carbon::createFromFormat('d-m-Y', $validatedData['doc_date']);
-        $validatedData['doc_date'] = $docDateObj->format('Y-m-d');
-        $validatedData['doc_year'] = $docDateObj->format('Y');
         
 
         if ($request->hasFile('image_path')) {
@@ -199,6 +189,10 @@ class DocumentController extends Controller
             'message' => 'Document deleted successfully'
         ], 200);
         
+    }
+
+    public function getAlbum() {
+
     }
 
 

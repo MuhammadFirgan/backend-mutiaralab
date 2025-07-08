@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('doc_name');
-            $table->date("doc_date");
+            $table->string("doc_date");
             $table->string("doc_number");
             $table->text("doc_desc");
             $table->string("image_path");
-            $table->year("doc_year");
-            $table->enum('status', ['review', 'accept', 'decline'])->default("review");
+            $table->string("doc_year");
+            $table->enum('status', ['pending', 'accept', 'decline'])->default("pending");
             // $table->foreignId("marketing_id")->constrained("marketing")->onDelete("cascade");
             // $table->foreignId("marketing_id");
             $table->timestamps();
