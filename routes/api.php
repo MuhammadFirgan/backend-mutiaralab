@@ -24,6 +24,7 @@ route::middleware('auth:sanctum')->group(function() {
     Route::get('user/{user_id}/document/{year}', [DocumentController::class, 'show']);
     Route::put('user/{user_id}/document/{document_id}/edit', [DocumentController::class, 'update']);
     Route::delete('/user/{user_id}/document/{document_id}', [DocumentController::class, 'destroy']);
+    Route::get('document/{year}', [DocumentController::class, 'getAlbum']);
 });
 
 Route::middleware('auth:sanctum')->group(function() {

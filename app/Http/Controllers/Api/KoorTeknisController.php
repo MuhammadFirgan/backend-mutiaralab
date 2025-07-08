@@ -47,12 +47,10 @@ class KoorTeknisController extends Controller
         $path = $file->storeAs('uploads', $storedName, 'public');
 
         $url = Storage::url($path);
-        $docDateObj = Carbon::createFromFormat('d-m-Y', $validatedData['tgl_masuk']);
-        $docDate = $docDateObj->format('Y-m-d');
 
         $createdData = koor_teknis::create([
             'marketing_id' => $id,
-            'tgl_masuk' => $docDate,
+            'tgl_masuk' => $validatedData["tgl_masuk"],
             'status' => $validatedData["status"],
             'document_path' => $url
         ]);

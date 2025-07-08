@@ -53,13 +53,12 @@ class MarketingController extends Controller
         $path = $file->storeAs('uploads', $storedName, 'public');
 
         $url = Storage::url($path);
-        $docDateObj = Carbon::createFromFormat('d-m-Y', $validatedData['tgl_kajian']);
-        $docDate = $docDateObj->format('Y-m-d');
+
 
         $createdData = marketing::create([
             'user_id' => $request->user()->id,
             'document_id' => $id,
-            'tgl_kajian' => $docDate,
+            'tgl_kajian' => $validatedData["tgl_kajian"],
             'status' => $validatedData["status"],
             'ket_kajian' => $validatedData["ket_kajian"],
             'document_path' => $url
@@ -104,11 +103,6 @@ class MarketingController extends Controller
 
         $validatedData = $validator->validated();
        
-
-
-
-        $docDateObj = Carbon::createFromFormat('d-m-Y', $validatedData['tgl_kajian']);
-        $validatedData['tgl_kajian'] = $docDateObj->format('Y-m-d');
         
 
         if ($request->hasFile('document_path')) {

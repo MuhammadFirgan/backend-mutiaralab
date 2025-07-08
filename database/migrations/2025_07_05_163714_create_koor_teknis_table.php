@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('marketing_id')->constrained('marketings')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->date("tgl_masuk");
+            $table->string("tgl_masuk");
             $table->enum('status', ['accept koor teknis', 'decline koor teknis']);
             $table->string("document_path");
             $table->timestamps();
