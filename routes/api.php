@@ -34,10 +34,10 @@ Route::middleware('auth:sanctum')->group(function() {
 });
 
 Route::middleware('auth:sanctum')->group(function() {
-    Route::get('', [KoorTeknisController::class, 'index']);
+    Route::get('koorteknis/{koorteknis_id}/document', [KoorTeknisController::class, 'index']);
     Route::get('', [KoorTeknisController::class, 'show']);
-    Route::post('', [KoorTeknisController::class, 'store']);
-    Route::patch('', [KoorTeknisController::class, 'update']);
+    Route::post('koorteknis/document/{document_id}', [KoorTeknisController::class, 'store']);
+    Route::patch('koorteknis/{user_id}/document/{document_id}/edit', [KoorTeknisController::class, 'update']);
     Route::delete('', [KoorTeknisController::class, 'destroy']);
 });
 

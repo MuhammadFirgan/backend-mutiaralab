@@ -15,4 +15,8 @@ class marketing extends Model
     public function document() {
         return $this->belongsTo(Document::class);    
     }
+
+    public function koorteknis() {
+        return $this->hasMany(koor_teknis::class);
+    }
 }
