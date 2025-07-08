@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->foreignId('document_id')->constrained('documents')->onDelete('cascade');
             // $table->foreignId('koor_teknis_id');
-            $table->date("tgl_kajian");
+            $table->string("tgl_kajian");
             $table->enum("status", ["accept marketing", "decline marketing"]);
             $table->string("ket_kajian");
             $table->string("document_path");
