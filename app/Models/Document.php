@@ -15,4 +15,6 @@ class Document extends Model
     public function marketing() {
         return $this->hasOne(Marketing::class);
     }
+
+
 }
