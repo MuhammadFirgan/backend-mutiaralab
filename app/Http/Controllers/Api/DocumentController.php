@@ -191,13 +191,15 @@ class DocumentController extends Controller
         
     }
 
-    public function getAlbum() {
-        $albums = Document::select('doc_year as year')
+    public function getAlbum($user_id) {
+        $albums = Document::where('user_id', $user_id)
+        ->select('doc_year as year')
         ->selectRaw('COUNT(*) as total_document')
         ->groupBy('doc_year')
         ->orderByDesc('doc_year')
         ->get()
         ->map(function ($item) {
+        
             return [
                 'year' => (int) $item->year,
                 'total_document' => $item->total_document . ' document'
@@ -207,7 +209,7 @@ class DocumentController extends Controller
         if ($albums->isEmpty()) {
             return response()->json([
                 'success' => false,
-                'message' => "No document albums found.",
+                'message' => "No document albums found for user $user_id.",
             ], 404);
         }
 
@@ -217,6 +219,7 @@ class DocumentController extends Controller
             'data_album' => $albums
         ], 200);
     }
+    
 
 
 }
