@@ -51,9 +51,9 @@ Route::middleware('auth:sanctum')->group(function() {
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('', [QuotationController::class, 'index']);
     Route::get('', [QuotationController::class, 'show']);
-    Route::post('', [QuotationController::class, 'store']);
-    Route::patch('', [QuotationController::class, 'update']);
-    Route::delete('', [QuotationController::class, 'destroy']);
+    Route::post('quotation/document', [QuotationController::class, 'store']);
+    Route::patch('quotation/{document_id}/document/edit', [QuotationController::class, 'update']);
+    Route::delete('quotation/{document_id}/document', [QuotationController::class, 'destroy']);
 });
 
 Route::middleware('auth:sanctum')->group(function() {

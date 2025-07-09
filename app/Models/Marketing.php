@@ -23,4 +23,8 @@ class marketing extends Model
     public function penyedia_sampling() {
         return $this->hasOne(penyedia_sampling::class);
     }
+
+    public function quotation() {
+        return $this->hasOne(quotation::class);
+    }
 }

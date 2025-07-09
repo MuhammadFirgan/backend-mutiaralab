@@ -21,4 +21,8 @@ class penyedia_sampling extends Model
         return $this->belongsTo(koor_teknis::class);
     }
 
+    public function quotation() {
+        return $this->hasOne(quotation::class);
+    }
+
 }
