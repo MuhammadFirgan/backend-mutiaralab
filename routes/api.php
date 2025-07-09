@@ -19,7 +19,8 @@ Route::post('login', [AuthController::class, 'login']);
 
 route::middleware('auth:sanctum')->group(function() {
 
-    Route::get('user/{user_id}/document', [DocumentController::class, 'index']);
+    Route::get('user/document', [DocumentController::class, 'index']);
+    Route::get('user/{user_id}/document', [DocumentController::class, 'getDocumentByUser']);
     Route::post('user/document', [DocumentController::class, 'store']);
     Route::get('user/{user_id}/document/album', [DocumentController::class, 'getAlbum']);
     Route::get('user/{user_id}/document/{year}', [DocumentController::class, 'show']);
@@ -49,8 +50,7 @@ Route::middleware('auth:sanctum')->group(function() {
 });
 
 Route::middleware('auth:sanctum')->group(function() {
-    Route::get('', [QuotationController::class, 'index']);
-    Route::get('', [QuotationController::class, 'show']);
+    Route::get('quotation/document', [QuotationController::class, 'index']);
     Route::post('quotation/document', [QuotationController::class, 'store']);
     Route::patch('quotation/{document_id}/document/edit', [QuotationController::class, 'update']);
     Route::delete('quotation/{document_id}/document', [QuotationController::class, 'destroy']);

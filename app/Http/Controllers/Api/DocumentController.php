@@ -11,8 +11,28 @@ use Illuminate\Support\Facades\Validator;
 
 class DocumentController extends Controller
 {
-    public function index($id) {
+    public function index() {
+        // $document = Document::with('user')->where('user_id', $id)->get();
+        $document = Document::with('user')->get();
+
+        if (!$document) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User not found'
+            ], 404);
+        }
+
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Documents for user fetched successfully',
+            'data_document' => $document
+        ]);
+    }
+
+    public function getDocumentByUser($id) {
         $document = Document::with('user')->where('user_id', $id)->get();
+        
 
         if (!$document) {
             return response()->json([
