@@ -16,11 +16,12 @@ use Illuminate\Validation\Rule;
 class PenyediaSamplingController extends Controller
 {
     public function index() {
-        $user = Auth::user();
+        // $user = Auth::user();
 
-        $data = penyedia_sampling::where('user_id', $user->id)
-            ->with(['document', 'marketing', 'koor_teknis']) 
-            ->get();
+        // $data = penyedia_sampling::where('user_id', $user->id)
+        //     ->with(['document', 'marketing', 'koor_teknis']) 
+        //     ->get();
+        $data = penyedia_sampling::with(['document', 'marketing', 'koor_teknis'])->get();
 
         return response()->json([
             'success' => true,

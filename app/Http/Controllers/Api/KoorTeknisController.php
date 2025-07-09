@@ -12,8 +12,8 @@ use Illuminate\Validation\Rule;
 
 class KoorTeknisController extends Controller
 {
-    public function index($id) {
-        $document = koor_teknis::with('marketing')->where('marketing_id', $id)->get();
+    public function index() {
+        $document = koor_teknis::with('marketing')->get();
 
         return response()->json([
             'success' => true,
