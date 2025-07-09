@@ -12,4 +12,8 @@ class koor_teknis extends Model
     public function marketing() {
         return $this->belongsTo(marketing::class);
     }
+
+    public function penyedia_sampling() {
+        return $this->hasOne(penyedia_sampling::class);
+    }
 }

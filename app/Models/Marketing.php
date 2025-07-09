@@ -19,4 +19,8 @@ class marketing extends Model
     public function koorteknis() {
         return $this->hasMany(koor_teknis::class);
     }
+
+    public function penyedia_sampling() {
+        return $this->hasOne(penyedia_sampling::class);
+    }
 }

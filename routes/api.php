@@ -24,7 +24,7 @@ route::middleware('auth:sanctum')->group(function() {
     Route::get('user/{user_id}/document/{year}', [DocumentController::class, 'show']);
     Route::put('user/{user_id}/document/{document_id}/edit', [DocumentController::class, 'update']);
     Route::delete('/user/{user_id}/document/{document_id}', [DocumentController::class, 'destroy']);
-    Route::get('user/{user_id}document/album', [DocumentController::class, 'getAlbum']);
+    Route::get('user/{user_id}/document/album', [DocumentController::class, 'getAlbum']);
 });
 
 Route::middleware('auth:sanctum')->group(function() {
@@ -36,7 +36,6 @@ Route::middleware('auth:sanctum')->group(function() {
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('koorteknis/{koorteknis_id}/document', [KoorTeknisController::class, 'index']);
-    // Route::get('', [KoorTeknisController::class, 'show']);
     Route::post('koorteknis/document/{document_id}', [KoorTeknisController::class, 'store']);
     Route::patch('koorteknis/{user_id}/document/{document_id}/edit', [KoorTeknisController::class, 'update']);
     Route::delete('koorteknis/{user_id}/document/{document_id}', [KoorTeknisController::class, 'destroy']);
@@ -44,9 +43,8 @@ Route::middleware('auth:sanctum')->group(function() {
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('', [PenyediaSamplingController::class, 'index']);
-    Route::get('', [PenyediaSamplingController::class, 'show']);
-    Route::post('', [PenyediaSamplingController::class, 'store']);
-    Route::patch('', [PenyediaSamplingController::class, 'update']);
+    Route::post('sampling/document', [PenyediaSamplingController::class, 'store']);
+    Route::patch('sampling/{document_id}/document/edit', [PenyediaSamplingController::class, 'update']);
     Route::delete('', [PenyediaSamplingController::class, 'destroy']);
 });
 
