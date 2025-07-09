@@ -16,5 +16,9 @@ class Document extends Model
         return $this->hasOne(Marketing::class);
     }
 
+    public function penyedia_sampling() {
+        return $this->hasOne(penyedia_sampling::class);
+    }
+
 
 }
