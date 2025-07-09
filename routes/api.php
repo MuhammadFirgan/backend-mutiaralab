@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\MarketingController;
 use App\Http\Controllers\Api\PenyediaSamplingController;
 use App\Http\Controllers\Api\PoTtdQuotationController;
 use App\Http\Controllers\Api\QuotationController;
+use App\Http\Controllers\InvoiceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -57,10 +58,14 @@ Route::middleware('auth:sanctum')->group(function() {
 });
 
 Route::middleware('auth:sanctum')->group(function() {
-    Route::get('', [PoTtdQuotationController::class, 'index']);
-    Route::get('', [PoTtdQuotationController::class, 'show']);
-    Route::post('', [PoTtdQuotationController::class, 'store']);
-    Route::patch('', [PoTtdQuotationController::class, 'update']);
-    Route::delete('', [PoTtdQuotationController::class, 'destroy']);
+    Route::get('pottdquotation/document', [PoTtdQuotationController::class, 'index']);
+    Route::post('pottdquotation/document', [PoTtdQuotationController::class, 'store']);
+    Route::patch('pottdquotation/{document_id}/document/edit', [PoTtdQuotationController::class, 'update']);
+    Route::delete('pottdquotation/{document_id}/document', [PoTtdQuotationController::class, 'destroy']);
+});
+
+Route::middleware('auth:sanctum')->group(function() {
+    Route::get('invoice/document', [InvoiceController::class, 'index']);
+    Route::post('invoice/document', [InvoiceController::class, 'store']);
 });
 

@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('po_ttd_quotations', function (Blueprint $table) {
+        Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->foreignId('document_id')->constrained('documents')->onDelete('cascade');
-            $table->foreignId('quotation_id')->constrained('quotations')->onDelete('cascade');
+            $table->foreignId('po_id')->constrained('po_ttd_quotations')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->string('tgl_ttd');
-            $table->string('ket_ttd');
+            $table->string('tgl_invoice');
+            $table->string('ket_invoice');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('po_ttd_quotations');
+        Schema::dropIfExists('invoices');
     }
 };
