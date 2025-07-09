@@ -20,5 +20,13 @@ class Document extends Model
         return $this->hasOne(penyedia_sampling::class);
     }
 
+    public function poTtdQuotation() {
+        return $this->hasOne(po_ttd_quotation::class);
+    }
+
+    public function invoice() {
+        return $this->hasOne(invoice::class);
+    }
+
 
 }
