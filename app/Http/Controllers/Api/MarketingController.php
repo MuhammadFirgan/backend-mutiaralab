@@ -11,8 +11,8 @@ use Illuminate\Validation\Rule;
 
 class MarketingController extends Controller
 {
-    public function index($id) {
-        $document = marketing::with("document")->where('document_id', $id)->get();
+    public function index() {
+        $document = marketing::with("document")->get();
         
         return response()->json([
             'success' => true,

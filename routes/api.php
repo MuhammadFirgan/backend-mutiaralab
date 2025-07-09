@@ -29,7 +29,7 @@ route::middleware('auth:sanctum')->group(function() {
 });
 
 Route::middleware('auth:sanctum')->group(function() {
-    Route::get('marketing/{marketing_id}/document', [MarketingController::class, 'index']);
+    Route::get('marketing/document', [MarketingController::class, 'index']);
     Route::post('marketing/document/{document_id}', [MarketingController::class, 'store']);
     Route::patch('marketing/{user_id}/document/{document_id}/edit', [MarketingController::class, 'update']);
     Route::delete('marketing/{user_id}/document/{document_id}', [MarketingController::class, 'destroy']);
