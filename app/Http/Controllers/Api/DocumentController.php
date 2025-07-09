@@ -215,10 +215,40 @@ class DocumentController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'okee',
+            'message' => 'document fetched successfully',
             'data_album' => $albums
         ], 200);
     }
+
+    // public function getAlbum($user_id) {
+    //     return response()->json(['user_id' => $user_id]);
+    //     @dd($user_id);
+    //     $albums = Document::where('user_id', $user_id)
+    //         ->selectRaw('doc_year as year, COUNT(*) as total_document')
+    //         ->groupBy('doc_year')
+    //         ->orderByDesc('doc_year')
+    //         ->get()
+    //         ->map(function ($item) {
+    //             return [
+    //                 'year' => (int) $item->year,
+    //                 'total_document' => $item->total_document . ' document'
+    //             ];
+    //         });
+    
+    //     if ($albums->isEmpty()) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => "No document albums found for user $user_id.",
+    //         ], 404);
+    //     }
+    
+    //     return response()->json([
+    //         'success' => true,
+    //         'message' => 'okee',
+    //         'data_album' => $albums
+    //     ], 200);
+    // }
+    
     
 
 
