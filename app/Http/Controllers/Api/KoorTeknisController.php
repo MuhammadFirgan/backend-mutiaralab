@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class KoorTeknisController extends Controller
 {
@@ -49,6 +50,7 @@ class KoorTeknisController extends Controller
         $url = Storage::url($path);
 
         $createdData = koor_teknis::create([
+            'user_id' => $request->user()->id,
             'marketing_id' => $id,
             'tgl_masuk' => $validatedData["tgl_masuk"],
             'status' => $validatedData["status"],
@@ -64,10 +66,80 @@ class KoorTeknisController extends Controller
     }
 
     public function update(Request $request, $user_id, $document_id) {
+        $document = koor_teknis::with('marketing')
+            ->where('user_id', $user_id)
+            ->where('marketing_id', $document_id)
+            ->first();
+
+        if (!$document) {
+            return response()->json([
+                'success' => false,
+                'message' => "Document not found"
+            ], 404);
+        }
+
+
+        $validator = Validator::make($request->all(), [
+            'tgl_masuk' => 'required|max:255',
+            'status' => ['required', Rule::in(['accept koor teknis', 'decline koor teknis'])],
+            'document_path' => 'required|file|max:5024|mimes:jpg,png,jpeg'
+        ]);
+
+        if($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update document',
+                'data_koor_teknis' => $validator->errors()
+            ], 401); 
+        }
+
+        $validatedData = $validator->validated();
+       
         
+
+        if ($request->hasFile('document_path')) {
+            $file = $request->file('document_path');
+            $extension = $file->getClientOriginalExtension();
+            $storedName = 'IMG_' . time() . '_' . uniqid() . '.' . $extension;
+            $path = $file->storeAs('uploads', $storedName, 'public');
+            $url = Storage::url($path);
+            $validatedData['document_path'] = $url;
+        }
+
+        $document->update($validatedData);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Document updated successfully',
+            'data_koor_teknis' => $document
+        ], 200);
+
+
     }
 
-    public function destroy() {
+    public function destroy($user_id, $document_id) {
+        $document = koor_teknis::with('marketing')
+            ->where('user_id', $user_id)
+            ->where('marketing_id', $document_id)
+            ->first();
 
+        if (!$document) {
+            return response()->json([
+                'success' => false,
+                'message' => "Document not found"
+            ], 404);
+        }
+
+        if ($document->image_path) {
+            $path = str_replace('/storage/', '', $document->document_path);
+            Storage::disk('public')->delete($path);
+        }
+
+        $document->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Document deleted successfully'
+        ], 200);
     }
 }
