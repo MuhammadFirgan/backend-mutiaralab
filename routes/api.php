@@ -42,10 +42,10 @@ Route::middleware('auth:sanctum')->group(function() {
 });
 
 Route::middleware('auth:sanctum')->group(function() {
-    Route::get('', [PenyediaSamplingController::class, 'index']);
+    Route::get('sampling/document', [PenyediaSamplingController::class, 'index']);
     Route::post('sampling/document', [PenyediaSamplingController::class, 'store']);
     Route::patch('sampling/{document_id}/document/edit', [PenyediaSamplingController::class, 'update']);
-    Route::delete('', [PenyediaSamplingController::class, 'destroy']);
+    Route::delete('sampling/{document_id}/document', [PenyediaSamplingController::class, 'destroy']);
 });
 
 Route::middleware('auth:sanctum')->group(function() {

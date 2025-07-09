@@ -16,7 +16,17 @@ use Illuminate\Validation\Rule;
 class PenyediaSamplingController extends Controller
 {
     public function index() {
+        $user = Auth::user();
 
+        $data = penyedia_sampling::where('user_id', $user->id)
+            ->with(['document', 'marketing', 'koor_teknis']) 
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'List of sampling documents',
+            'data sampling' => $data
+        ], 200);
     }
 
     public function store(Request $request) {
@@ -120,7 +130,25 @@ class PenyediaSamplingController extends Controller
 
     }
 
-    public function destroy() {
+    public function destroy($id) {
+        $sampling = penyedia_sampling::find($id);
 
+        if (!$sampling) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data not found'
+            ], 404);
+        }
+
+        if ($sampling->document_path && Storage::exists(str_replace('/storage/', '', $sampling->document_path))) {
+            Storage::delete(str_replace('/storage/', '', $sampling->document_path));
+        }
+    
+        $sampling->delete();
+    
+        return response()->json([
+            'success' => true,
+            'message' => 'Data deleted successfully'
+        ], 200);
     }
 }
