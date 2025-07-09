@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('quotations', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('sampling_id')->constrained('penyedia_samplings')->onDelete('cascade');
+            $table->foreignId('marketing_id')->constrained('marketings')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->string('tgl_acc');
+            $table->text('ket_acc');
             $table->timestamps();
         });
     }
