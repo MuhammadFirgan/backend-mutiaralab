@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('po_ttd_quotations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('document_id')->constrained('documents')->onDelete('cascade');
+            $table->foreignId('quotation_id')->constrained('quotations')->onDelete('cascade');
+            $table->string('tgl_ttd');
+            $table->string('ket_ttd');
             $table->timestamps();
         });
     }
