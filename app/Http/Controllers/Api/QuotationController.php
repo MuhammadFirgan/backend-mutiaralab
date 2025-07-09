@@ -15,10 +15,9 @@ use Illuminate\Validation\Validator as ValidationValidator;
 class QuotationController extends Controller
 {
     public function index() {
-        $user = Auth::user();
 
-        $data = quotation::where('user_id', $user->id)
-            ->with(['marketing', 'penyedia_sampling']) 
+
+        $data = quotation::with(['marketing', 'penyedia_sampling']) 
             ->get();
 
         return response()->json([
