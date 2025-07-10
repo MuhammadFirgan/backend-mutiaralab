@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Document;
-use App\Models\koor_teknis;
-use App\Models\marketing;
+use App\Models\Koor_teknis;
+use App\Models\Marketing;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\ValidatedData;
 use Illuminate\Http\Request;
@@ -17,7 +17,7 @@ use Illuminate\Validation\Rule;
 class KoorTeknisController extends Controller
 {
     public function index() {
-        $document = koor_teknis::with('marketing')->get();
+        $document = Koor_teknis::with('marketing')->get();
 
         return response()->json([
             'success' => true,
