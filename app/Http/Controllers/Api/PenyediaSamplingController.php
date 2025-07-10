@@ -21,7 +21,8 @@ class PenyediaSamplingController extends Controller
         // $data = penyedia_sampling::where('user_id', $user->id)
         //     ->with(['document', 'marketing', 'koor_teknis']) 
         //     ->get();
-        $data = Penyedia_sampling::with(['document', 'marketing', 'koor_teknis'])->get();
+        // $data = Penyedia_sampling::with(['document', 'marketing', 'koor_teknis'])->get();
+        $data = Koor_teknis::with(['marketing'])->get();
 
 
         return response()->json([
