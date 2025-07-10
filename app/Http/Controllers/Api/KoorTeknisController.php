@@ -29,7 +29,7 @@ class KoorTeknisController extends Controller
     public function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'tgl_masuk' => 'required|max:255',
-            'status' => 'required|in:accept koor teknis', 'decline koor teknis',
+            'status' => 'required|in:accept koor teknis,decline koor teknis',
             'document_path' => 'required|file|max:5024|mimes:jpg,png,jpeg'
         ]);
 
