@@ -28,6 +28,7 @@ class KoorTeknisController extends Controller
 
     public function store(Request $request) {
         $validator = Validator::make($request->all(), [
+            // 'document_id' => 'required|max:255',
             'tgl_masuk' => 'required|max:255',
             'status' => 'required|in:accept koor teknis,decline koor teknis',
             'document_path' => 'required|file|max:5024|mimes:jpg,png,jpeg'
@@ -45,7 +46,7 @@ class KoorTeknisController extends Controller
 
         $user = Auth::user();
         $id = $user->id;
-
+        
         $document = Document::where('user_id', $id)->first();
         if (!$document) {
             return response()->json(['message' => 'document not found for this user'], 404);
@@ -54,12 +55,13 @@ class KoorTeknisController extends Controller
         if (!$marketing) {
             return response()->json(['message' => 'marketing not found for this user'], 404);
         }
-
+        
         $validatedData["marketing_id"] = $marketing->id;
-      
-
+        
+        
         $file = $request->file('document_path');
         $validatedData = $validator->validated();
+        @dd($validatedData);
 
         $originalName = $file->getClientOriginalName();
         $extension = pathinfo($originalName, PATHINFO_EXTENSION);
