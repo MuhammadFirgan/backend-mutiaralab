@@ -61,7 +61,7 @@ class KoorTeknisController extends Controller
         
         $file = $request->file('document_path');
         $validatedData = $validator->validated();
-        @dd($validatedData);
+       
 
         $originalName = $file->getClientOriginalName();
         $extension = pathinfo($originalName, PATHINFO_EXTENSION);
