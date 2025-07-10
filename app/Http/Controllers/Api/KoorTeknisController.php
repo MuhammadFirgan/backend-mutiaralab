@@ -50,9 +50,9 @@ class KoorTeknisController extends Controller
         if (!$document) {
             return response()->json(['message' => 'document not found for this user'], 404);
         }
-        $marketing = marketing::where('document_id', $document->id)->first();
+        $marketing = Marketing::where('document_id', $document->id)->first();
         if (!$marketing) {
-            return response()->json(['message' => 'document not found for this user'], 404);
+            return response()->json(['message' => 'marketing not found for this user'], 404);
         }
 
         $validatedData["marketing_id"] = $marketing->id;
@@ -70,8 +70,8 @@ class KoorTeknisController extends Controller
 
         $url = Storage::url($path);
 
-        $createdData = koor_teknis::create([
-            'user_id' => $request->user()->id,
+        $createdData = Koor_teknis::create([
+            'user_id' => $id,
             'marketing_id' => $marketing->id,
             'tgl_masuk' => $validatedData["tgl_masuk"],
             'status' => $validatedData["status"],
