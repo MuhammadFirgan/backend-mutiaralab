@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Document;
-use App\Models\invoice;
-use App\Models\Po_ttd_quotation;
-use App\Models\quotation;
+use App\Models\Invoice;
+use App\Models\Po_Ttd_Quotation;
+use App\Models\Quotation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Validator;
 class PoTtdQuotationController extends Controller
 {
     public function index() {
-        $data = Po_ttd_quotation::with(['document', 'quotation'])->get();
+        // $data = Po_Ttd_Quotation::with(['document', 'quotation'])->get();
+        $data = Quotation::with(['marketing', 'penyedia_sampling'])->get();
 
         return response()->json([
             'success' => true,
@@ -23,7 +24,7 @@ class PoTtdQuotationController extends Controller
         ], 200);
     }
 
-    public function store(Request $request) {
+    public function store(Request $request, $id) {
         $validator = Validator::make($request->all(), [
             'tgl_ttd' => 'required|max:255',
             'ket_ttd' => 'required|max:255',
@@ -38,7 +39,7 @@ class PoTtdQuotationController extends Controller
         }
             $user = Auth::user();
 
-        $document = Document::where('user_id', $user->id)->first();
+        $document = Document::where('id', $id)->first();
         if (!$document) {
             return response()->json(['message' => 'document not found for this user'], 404);
         }

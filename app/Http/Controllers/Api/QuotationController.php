@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Document;
 use App\Models\Marketing;
-use App\Models\Penyedia_sampling;
+use App\Models\Penyedia_Sampling;
 use App\Models\Quotation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,8 +17,10 @@ class QuotationController extends Controller
     public function index() {
 
 
-        $data = quotation::with(['marketing', 'penyedia_sampling']) 
-            ->get();
+        // $data = quotation::with(['marketing', 'penyedia_sampling']) 
+        //     ->get();
+
+        $data = Penyedia_sampling::with(['document', 'marketing', 'koor_teknis'])->get();
 
         return response()->json([
             'success' => true,
@@ -46,17 +48,17 @@ class QuotationController extends Controller
 
         $user = Auth::user();
 
-        $document = Document::where('user_id', $user->id)->first();
+        $document = Document::where('id', $id)->first();
         if (!$document) {
             return response()->json(['message' => 'document not found for this user'], 404);
         }
 
-        $marketing = marketing::where('document_id', $document->id)->first();
+        $marketing = Marketing::where('document_id', $document->id)->first();
         if (!$marketing) {
             return response()->json(['message' => 'document not found for this user'], 404);
         }
 
-        $sampling = penyedia_sampling::where('marketing_id', $marketing->id)->first();
+        $sampling = Penyedia_Sampling::where('marketing_id', $marketing->id)->first();
 
         if (!$sampling) {
             return response()->json(['message' => 'document not found for this user'], 404);
@@ -67,7 +69,7 @@ class QuotationController extends Controller
         $validatedData["marketing_id"] = $marketing->id;
         $validatedData["sampling_id"] = $sampling->id;
 
-        $createdData = quotation::create($validatedData);
+        $createdData = Quotation::create($validatedData);
 
         return response()->json([
             'success' => true,

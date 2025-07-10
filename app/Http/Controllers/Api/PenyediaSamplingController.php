@@ -21,8 +21,8 @@ class PenyediaSamplingController extends Controller
         // $data = penyedia_sampling::where('user_id', $user->id)
         //     ->with(['document', 'marketing', 'koor_teknis']) 
         //     ->get();
-        // $data = Penyedia_sampling::with(['document', 'marketing', 'koor_teknis'])->get();
-        $data = Koor_teknis::with(['marketing'])->get();
+        $data = Penyedia_sampling::with(['document', 'marketing', 'koor_teknis'])->get();
+        // $data = Koor_teknis::with(['marketing'])->get();
 
 
         return response()->json([
@@ -47,25 +47,27 @@ class PenyediaSamplingController extends Controller
             ], 401); 
         }
 
-        // $user = Auth::user();
+        $user = Auth::user();
         // $id = $user->id;
-        // $document = Document::where('user_id', $id)->first();
-        // if (!$document) {
-        //     return response()->json(['message' => 'document not found for this user'], 404);
-        // }
-        // $marketing = Marketing::where('document_id', $document->id)->first();
-        // if (!$marketing) {
-        //     return response()->json(['message' => 'document not found for this user'], 404);
-        // }
-        // $koorTeknis = Koor_teknis::where('marketing_id', $marketing->id)->first();
-        // if (!$koorTeknis) {
-        //     return response()->json(['message' => 'document not found for this user'], 404);
-        // }
+        $document = Document::where('id', $id)->first();
+        if (!$document) {
+            return response()->json(['message' => 'document not found for this user'], 404);
+        }
+        $marketing = Marketing::where('document_id', $document->id)->first();
+        if (!$marketing) {
+            return response()->json(['message' => 'document not found for this user'], 404);
+        }
+        $koorTeknis = Koor_Teknis::where('marketing_id', $marketing->id)->first();
+        if (!$koorTeknis) {
+            return response()->json(['message' => 'document not found for this user'], 404);
+        }
 
         $file = $request->file('document_path');
         $validatedData = $validator->validated();
         $validatedData["user_id"] = $request->user()->id;
-        $validatedData["marketing_id"] = $id;
+        $validatedData["document_id"] = $document->id;
+        $validatedData["marketing_id"] = $marketing->id;
+        $validatedData["koor_teknis_id"] = $koorTeknis->id;
 
         $originalName = $file->getClientOriginalName();
         $extension = pathinfo($originalName, PATHINFO_EXTENSION);
