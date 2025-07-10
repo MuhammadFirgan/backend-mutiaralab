@@ -63,9 +63,7 @@ class PenyediaSamplingController extends Controller
         $file = $request->file('document_path');
         $validatedData = $validator->validated();
         $validatedData["user_id"] = $request->user()->id;
-        $validatedData["document_id"] = $document->id;
         $validatedData["marketing_id"] = $marketing->id;
-        $validatedData["koor_teknis_id"] = $koorTeknis->id;
 
         $originalName = $file->getClientOriginalName();
         $extension = pathinfo($originalName, PATHINFO_EXTENSION);

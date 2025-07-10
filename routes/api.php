@@ -38,7 +38,7 @@ Route::middleware('auth:sanctum')->group(function() {
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('koorteknis/document', [KoorTeknisController::class, 'index']);
-    Route::post('koorteknis/document/{document_id}', [KoorTeknisController::class, 'store']);
+    Route::post('koorteknis/document', [KoorTeknisController::class, 'store']);
     Route::patch('koorteknis/{user_id}/document/{document_id}/edit', [KoorTeknisController::class, 'update']);
     Route::delete('koorteknis/{user_id}/document/{document_id}', [KoorTeknisController::class, 'destroy']);
 });
