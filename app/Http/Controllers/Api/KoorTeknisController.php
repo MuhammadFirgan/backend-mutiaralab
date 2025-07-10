@@ -26,7 +26,7 @@ class KoorTeknisController extends Controller
         ], 200);
     }
 
-    public function store(Request $request) {
+    public function store(Request $request, $id) {
         $validator = Validator::make($request->all(), [
             // 'document_id' => 'required|max:255',
             'tgl_masuk' => 'required|max:255',
@@ -44,19 +44,20 @@ class KoorTeknisController extends Controller
 
         // $marketing = marketing::with('document')->where('document_id', );
 
-        $user = Auth::user();
-        $id = $user->id;
+        // $user = Auth::user();
+        // $id = $user->id;
         
-        $document = Document::where('user_id', $id)->first();
-        if (!$document) {
-            return response()->json(['message' => 'document not found for this user'], 404);
-        }
-        $marketing = Marketing::where('document_id', $document->id)->first();
-        if (!$marketing) {
-            return response()->json(['message' => 'marketing not found for this user'], 404);
-        }
+        // $document = Document::where('user_id', $id)->first();
+        // @dd($document);
+        // if (!$document) {
+        //     return response()->json(['message' => 'document not found for this user'], 404);
+        // }
+        // $marketing = Marketing::where('document_id', $document->id)->first();
+        // if (!$marketing) {
+        //     return response()->json(['message' => 'marketing not found for this user'], 404);
+        // }
         
-        $validatedData["marketing_id"] = $marketing->id;
+        // $validatedData["marketing_id"] = $marketing->id;
         
         
         $file = $request->file('document_path');
@@ -73,8 +74,8 @@ class KoorTeknisController extends Controller
         $url = Storage::url($path);
 
         $createdData = Koor_teknis::create([
-            'user_id' => $id,
-            'marketing_id' => $marketing->id,
+            'user_id' => $request->user()->id,
+            'marketing_id' => $id,
             'tgl_masuk' => $validatedData["tgl_masuk"],
             'status' => $validatedData["status"],
             'document_path' => $url
@@ -89,7 +90,7 @@ class KoorTeknisController extends Controller
     }
 
     public function update(Request $request, $user_id, $document_id) {
-        $document = koor_teknis::with('marketing')
+        $document = Koor_teknis::with('marketing')
             ->where('user_id', $user_id)
             ->where('marketing_id', $document_id)
             ->first();
@@ -141,7 +142,7 @@ class KoorTeknisController extends Controller
     }
 
     public function destroy($user_id, $document_id) {
-        $document = koor_teknis::with('marketing')
+        $document = Koor_teknis::with('marketing')
             ->where('user_id', $user_id)
             ->where('marketing_id', $document_id)
             ->first();

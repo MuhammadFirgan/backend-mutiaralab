@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Document;
-use App\Models\marketing;
-use App\Models\penyedia_sampling;
-use App\Models\quotation;
+use App\Models\Marketing;
+use App\Models\Penyedia_sampling;
+use App\Models\Quotation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -27,7 +27,7 @@ class QuotationController extends Controller
         ], 200);
     }
 
-    public function store(Request $request) {
+    public function store(Request $request, $id) {
         $validator = Validator::make($request->all(), [
             'tgl_acc' => 'required|max:255',
             'ket_acc' => 'required|max:255',
@@ -40,6 +40,9 @@ class QuotationController extends Controller
                 'data_quotation' => $validator->errors()
             ], 401); 
         }
+
+        // nanti ambil document_id dari url
+        // user id ngambil dari $request->user()->id
 
         $user = Auth::user();
 

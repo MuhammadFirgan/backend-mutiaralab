@@ -38,34 +38,34 @@ Route::middleware('auth:sanctum')->group(function() {
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('koorteknis/document', [KoorTeknisController::class, 'index']);
-    Route::post('koorteknis/document', [KoorTeknisController::class, 'store']);
+    Route::post('koorteknis/document/{document_id}', [KoorTeknisController::class, 'store']);
     Route::patch('koorteknis/{user_id}/document/{document_id}/edit', [KoorTeknisController::class, 'update']);
     Route::delete('koorteknis/{user_id}/document/{document_id}', [KoorTeknisController::class, 'destroy']);
 });
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('sampling/document', [PenyediaSamplingController::class, 'index']);
-    Route::post('sampling/document', [PenyediaSamplingController::class, 'store']);
+    Route::post('sampling/document/{document_id}', [PenyediaSamplingController::class, 'store']);
     Route::patch('sampling/{document_id}/document/edit', [PenyediaSamplingController::class, 'update']);
     Route::delete('sampling/{document_id}/document', [PenyediaSamplingController::class, 'destroy']);
 });
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('quotation/document', [QuotationController::class, 'index']);
-    Route::post('quotation/document', [QuotationController::class, 'store']);
+    Route::post('quotation/document/{document_id}', [QuotationController::class, 'store']);
     Route::patch('quotation/{document_id}/document/edit', [QuotationController::class, 'update']);
     Route::delete('quotation/{document_id}/document', [QuotationController::class, 'destroy']);
 });
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('pottdquotation/document', [PoTtdQuotationController::class, 'index']);
-    Route::post('pottdquotation/document', [PoTtdQuotationController::class, 'store']);
+    Route::post('pottdquotation/document/{document_id}', [PoTtdQuotationController::class, 'store']);
     Route::patch('pottdquotation/{document_id}/document/edit', [PoTtdQuotationController::class, 'update']);
     Route::delete('pottdquotation/{document_id}/document', [PoTtdQuotationController::class, 'destroy']);
 });
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('invoice/document', [InvoiceController::class, 'index']);
-    Route::post('invoice/document', [InvoiceController::class, 'store']);
+    Route::post('invoice/document/{document_id}', [InvoiceController::class, 'store']);
 });
 
