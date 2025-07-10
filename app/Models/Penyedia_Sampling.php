@@ -18,7 +18,7 @@ class penyedia_sampling extends Model
     }
 
     public function koor_teknis() {
-        return $this->belongsTo(Koor_Teknis::class);
+        return $this->belongsTo(Koor_teknis::class);
     }
 
     public function quotation() {
