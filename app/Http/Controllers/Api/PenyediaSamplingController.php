@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Document;
-use App\Models\Koor_teknis;
+use App\Models\Koor_Teknis;
 use App\Models\Marketing;
 use App\Models\Penyedia_Sampling;
 use Illuminate\Http\Request;
