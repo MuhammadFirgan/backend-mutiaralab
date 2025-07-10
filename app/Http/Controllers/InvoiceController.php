@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Document;
-use App\Models\Invoice;
+use App\Models\invoice;
 use App\Models\Po_Ttd_Quotation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -61,7 +61,7 @@ class InvoiceController extends Controller
         $validatedData["po_id"] = $po->id;
         $validatedData["tgl_invoice"] = now()->format('Y-m-d');
     
-        $createdData = Invoice::create($validatedData);
+        $createdData = invoice::create($validatedData);
     
         return response()->json([
             'success' => true,
