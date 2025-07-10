@@ -22,6 +22,7 @@ class PenyediaSamplingController extends Controller
         //     ->with(['document', 'marketing', 'koor_teknis']) 
         //     ->get();
         $data = Penyedia_sampling::with(['document', 'marketing', 'koor_teknis'])->get();
+        
 
         return response()->json([
             'success' => true,
