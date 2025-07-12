@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Document;
 use App\Models\invoice;
-use App\Models\Po_ttd_quotation;
+use App\Models\Po_Ttd_Quotation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 class InvoiceController extends Controller
 {
     public function index() {
-        $invoice = invoice::with(['document', 'poTtdQuotation', 'user'])->get();
+        $invoice = Po_Ttd_Quotation::with(['document', 'quotation'])->get();
 
 
         if(!$invoice) {
@@ -29,7 +29,7 @@ class InvoiceController extends Controller
         ], 200);
     }
 
-    public function store(Request $request) {
+    public function store(Request $request, $id) {
         $validator = Validator::make($request->all(), [
             'tgl_invoice' => 'required|max:255',
             'ket_invoice' => 'required|max:255',
@@ -45,13 +45,12 @@ class InvoiceController extends Controller
     
         $user = Auth::user();
     
-        $document = Document::where('user_id', $user->id)->first();
+        $document = Document::where('id', $id)->first();
         if (!$document) {
             return response()->json(['message' => 'Document not found for this user'], 404);
         }
     
-        // Perbaikan disini: cari PO berdasarkan document_id
-        $po = Po_ttd_quotation::where('document_id', $document->id)->first();
+        $po = Po_Ttd_Quotation::where('document_id', $document->id)->first();
         if (!$po) {
             return response()->json(['message' => 'PO TTD not found for this document'], 404);
         }

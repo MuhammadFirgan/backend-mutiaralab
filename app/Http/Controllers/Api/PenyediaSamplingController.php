@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Document;
 use App\Models\Koor_teknis;
 use App\Models\Marketing;
-use App\Models\Penyedia_sampling;
+use App\Models\Penyedia_Sampling;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -22,7 +22,8 @@ class PenyediaSamplingController extends Controller
         //     ->with(['document', 'marketing', 'koor_teknis']) 
         //     ->get();
         $data = Penyedia_sampling::with(['document', 'marketing', 'koor_teknis'])->get();
-        
+        // $data = Koor_teknis::with(['marketing'])->get();
+
 
         return response()->json([
             'success' => true,
@@ -35,7 +36,7 @@ class PenyediaSamplingController extends Controller
         $validator = Validator::make($request->all(), [
             'tgl_survey' => 'required|max:255',
             'status' => 'required|in:accept sampling, decline sampling',
-            'document_path' => 'required|file|max:5024|mimes:jpg,png,jpeg'
+            'document_path' => 'required|file|max:5024|mimes:jpg,png,jpeg,pdf'
         ]);
 
         if($validator->fails()) {
@@ -46,30 +47,32 @@ class PenyediaSamplingController extends Controller
             ], 401); 
         }
 
-        // $user = Auth::user();
+        $user = Auth::user();
         // $id = $user->id;
-        // $document = Document::where('user_id', $id)->first();
-        // if (!$document) {
-        //     return response()->json(['message' => 'document not found for this user'], 404);
-        // }
-        // $marketing = Marketing::where('document_id', $document->id)->first();
-        // if (!$marketing) {
-        //     return response()->json(['message' => 'document not found for this user'], 404);
-        // }
-        // $koorTeknis = Koor_teknis::where('marketing_id', $marketing->id)->first();
-        // if (!$koorTeknis) {
-        //     return response()->json(['message' => 'document not found for this user'], 404);
-        // }
+        $document = Document::where('id', $id)->first();
+        if (!$document) {
+            return response()->json(['message' => 'document not found for this user'], 404);
+        }
+        $marketing = Marketing::where('document_id', $document->id)->first();
+        if (!$marketing) {
+            return response()->json(['message' => 'document not found for this user'], 404);
+        }
+        $koorTeknis = Koor_Teknis::where('marketing_id', $marketing->id)->first();
+        if (!$koorTeknis) {
+            return response()->json(['message' => 'document not found for this user'], 404);
+        }
 
         $file = $request->file('document_path');
         $validatedData = $validator->validated();
         $validatedData["user_id"] = $request->user()->id;
-        $validatedData["marketing_id"] = $id;
+        $validatedData["document_id"] = $document->id;
+        $validatedData["marketing_id"] = $marketing->id;
+        $validatedData["koor_teknis_id"] = $koorTeknis->id;
 
         $originalName = $file->getClientOriginalName();
         $extension = pathinfo($originalName, PATHINFO_EXTENSION);
 
-        $storedName = 'IMG_'. time() . '_' . uniqid() . '.' . $extension;
+        $storedName = 'FILE_'. time() . '_' . uniqid() . '.' . $extension;
 
         $path = $file->storeAs('uploads', $storedName, 'public');
 
@@ -97,7 +100,7 @@ class PenyediaSamplingController extends Controller
         $validator = Validator::make($request->all(), [
             'tgl_survey' => 'required|max:255',
             'status' => ['required', Rule::in('accept sampling', 'decline sampling')],
-            'document_path' => 'required|file|max:5024|mimes:jpg,png,jpeg'
+            'document_path' => 'required|file|max:5024|mimes:jpg,png,jpeg,pdf'
         ]);
 
         if($validator->fails()) {
@@ -114,7 +117,7 @@ class PenyediaSamplingController extends Controller
             $file = $request->file('document_path');
             $originalName = $file->getClientOriginalName();
             $extension = pathinfo($originalName, PATHINFO_EXTENSION);
-            $storedName = 'IMG_' . time() . '_' . uniqid() . '.' . $extension;
+            $storedName = 'FILE_' . time() . '_' . uniqid() . '.' . $extension;
             $path = $file->storeAs('uploads', $storedName, 'public');
             $url = Storage::url($path);
             $validatedData['document_path'] = $url;

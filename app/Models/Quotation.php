@@ -9,14 +9,14 @@ class quotation extends Model
     protected $guarded = ["id"];
 
     public function penyedia_sampling() {
-        return $this->belongsTo(penyedia_sampling::class, 'sampling_id');
+        return $this->belongsTo(Penyedia_Sampling::class, 'sampling_id');
     }
     
     public function marketing() {
-        return $this->belongsTo(marketing::class);
+        return $this->belongsTo(Marketing::class);
     }
 
     public function po_ttd_quotation() {
-        return $this->belongsTo(po_ttd_quotation::class);
+        return $this->belongsTo(Po_Ttd_Quotation::class);
     }
 }

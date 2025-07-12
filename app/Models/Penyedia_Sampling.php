@@ -10,19 +10,19 @@ class penyedia_sampling extends Model
     protected $guarded = ["id"];
 
     public function document() {
-        return $this->belongsTo(document::class);
+        return $this->belongsTo(Document::class);
     }
 
     public function marketing() {
-        return $this->belongsTo(marketing::class);
+        return $this->belongsTo(Marketing::class);
     }
 
     public function koor_teknis() {
-        return $this->belongsTo(koor_teknis::class);
+        return $this->belongsTo(Koor_teknis::class);
     }
 
     public function quotation() {
-        return $this->hasOne(quotation::class);
+        return $this->hasOne(Quotation::class);
     }
 
 }
