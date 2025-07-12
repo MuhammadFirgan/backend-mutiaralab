@@ -55,7 +55,7 @@ class DocumentController extends Controller
             'doc_date' => 'required|max:255',
             'doc_number' => 'required|max:255',
             'doc_desc' => 'required|max:255',
-            'image_path' => 'required|file|max:5024|mimes:jpg,jpeg,png',
+            'image_path' => 'required|file|max:5024|mimes:jpg,jpeg,png,pdf',
             'doc_year' => 'required|max:255',
         ]);
 
@@ -76,7 +76,7 @@ class DocumentController extends Controller
         $originalName = $file->getClientOriginalName();
         $extension = pathinfo($originalName, PATHINFO_EXTENSION);
 
-        $storedName = 'IMG_'. time() . '_' . uniqid() . '.' . $extension;
+        $storedName = 'FILE_'. time() . '_' . uniqid() . '.' . $extension;
 
 
         $path = $file->storeAs('uploads', $storedName, 'public');
@@ -144,7 +144,7 @@ class DocumentController extends Controller
             'doc_date' => 'required|max:255',
             'doc_number' => 'required|max:255',
             'doc_desc' => 'required|max:255',
-            'image_path' => 'required|file|max:5024|mimes:jpg,jpeg,png',
+            'image_path' => 'required|file|max:5024|mimes:jpg,jpeg,png,pdf',
             'doc_year' => 'required|max:255',
             
         ]);
@@ -166,7 +166,7 @@ class DocumentController extends Controller
         if ($request->hasFile('image_path')) {
             $file = $request->file('image_path');
             $extension = $file->getClientOriginalExtension();
-            $storedName = 'IMG_' . time() . '_' . uniqid() . '.' . $extension;
+            $storedName = 'FILE_' . time() . '_' . uniqid() . '.' . $extension;
             $path = $file->storeAs('uploads', $storedName, 'public');
             $url = Storage::url($path);
             $validatedData['image_path'] = $url;

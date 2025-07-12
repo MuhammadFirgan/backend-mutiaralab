@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Document;
-use App\Models\Koor_Teknis;
+use App\Models\Koor_teknis;
 use App\Models\Marketing;
 use App\Models\Penyedia_Sampling;
 use Illuminate\Http\Request;
@@ -36,7 +36,7 @@ class PenyediaSamplingController extends Controller
         $validator = Validator::make($request->all(), [
             'tgl_survey' => 'required|max:255',
             'status' => 'required|in:accept sampling, decline sampling',
-            'document_path' => 'required|file|max:5024|mimes:jpg,png,jpeg'
+            'document_path' => 'required|file|max:5024|mimes:jpg,png,jpeg,pdf'
         ]);
 
         if($validator->fails()) {
@@ -72,7 +72,7 @@ class PenyediaSamplingController extends Controller
         $originalName = $file->getClientOriginalName();
         $extension = pathinfo($originalName, PATHINFO_EXTENSION);
 
-        $storedName = 'IMG_'. time() . '_' . uniqid() . '.' . $extension;
+        $storedName = 'FILE_'. time() . '_' . uniqid() . '.' . $extension;
 
         $path = $file->storeAs('uploads', $storedName, 'public');
 
@@ -100,7 +100,7 @@ class PenyediaSamplingController extends Controller
         $validator = Validator::make($request->all(), [
             'tgl_survey' => 'required|max:255',
             'status' => ['required', Rule::in('accept sampling', 'decline sampling')],
-            'document_path' => 'required|file|max:5024|mimes:jpg,png,jpeg'
+            'document_path' => 'required|file|max:5024|mimes:jpg,png,jpeg,pdf'
         ]);
 
         if($validator->fails()) {
@@ -117,7 +117,7 @@ class PenyediaSamplingController extends Controller
             $file = $request->file('document_path');
             $originalName = $file->getClientOriginalName();
             $extension = pathinfo($originalName, PATHINFO_EXTENSION);
-            $storedName = 'IMG_' . time() . '_' . uniqid() . '.' . $extension;
+            $storedName = 'FILE_' . time() . '_' . uniqid() . '.' . $extension;
             $path = $file->storeAs('uploads', $storedName, 'public');
             $url = Storage::url($path);
             $validatedData['document_path'] = $url;

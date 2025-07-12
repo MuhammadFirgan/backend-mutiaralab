@@ -28,7 +28,7 @@ class MarketingController extends Controller
             'tgl_kajian' => 'required|max:255',
             'status' => 'required|in:accept marketing, decline marketing',
             'ket_kajian' => 'required|max:255',
-            'document_path' => 'required|file|max:5024|mimes:jpg,jpeg,png'      
+            'document_path' => 'required|file|max:5024|mimes:jpg,jpeg,png,pdf'      
         ]);
 
         if($validator->fails()) {
@@ -46,7 +46,7 @@ class MarketingController extends Controller
         $originalName = $file->getClientOriginalName();
         $extension = pathinfo($originalName, PATHINFO_EXTENSION);
 
-        $storedName = 'IMG_'. time() . '_' . uniqid() . '.' . $extension;
+        $storedName = 'FILE_'. time() . '_' . uniqid() . '.' . $extension;
 
 
         $path = $file->storeAs('uploads', $storedName, 'public');
@@ -89,7 +89,7 @@ class MarketingController extends Controller
             'tgl_kajian' => 'required|max:255',
             'status' => ['required', Rule::in(['accept marketing', 'decline marketing'])],
             'ket_kajian' => 'required|max:255',
-            'document_path' => 'required|file|max:5024|mimes:jpg,jpeg,png'      
+            'document_path' => 'required|file|max:5024|mimes:jpg,jpeg,png,pdf'      
         ]);
 
         if($validator->fails()) {
@@ -107,7 +107,7 @@ class MarketingController extends Controller
         if ($request->hasFile('document_path')) {
             $file = $request->file('document_path');
             $extension = $file->getClientOriginalExtension();
-            $storedName = 'IMG_' . time() . '_' . uniqid() . '.' . $extension;
+            $storedName = 'FILE_' . time() . '_' . uniqid() . '.' . $extension;
             $path = $file->storeAs('uploads', $storedName, 'public');
             $url = Storage::url($path);
             $validatedData['document_path'] = $url;

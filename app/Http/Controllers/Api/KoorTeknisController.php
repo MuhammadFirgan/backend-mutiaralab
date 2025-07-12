@@ -31,7 +31,7 @@ class KoorTeknisController extends Controller
             // 'document_id' => 'required|max:255',
             'tgl_masuk' => 'required|max:255',
             'status' => 'required|in:accept koor teknis,decline koor teknis',
-            'document_path' => 'required|file|max:5024|mimes:jpg,png,jpeg'
+            'document_path' => 'required|file|max:5024|mimes:jpg,png,jpeg,pdf'
         ]);
 
         if($validator->fails()) {
@@ -67,7 +67,7 @@ class KoorTeknisController extends Controller
         $originalName = $file->getClientOriginalName();
         $extension = pathinfo($originalName, PATHINFO_EXTENSION);
 
-        $storedName = 'IMG_'. time() . '_' . uniqid() . '.' . $extension;
+        $storedName = 'FILE_'. time() . '_' . uniqid() . '.' . $extension;
 
         $path = $file->storeAs('uploads', $storedName, 'public');
 
@@ -106,7 +106,7 @@ class KoorTeknisController extends Controller
         $validator = Validator::make($request->all(), [
             'tgl_masuk' => 'required|max:255',
             'status' => ['required', Rule::in(['accept koor teknis', 'decline koor teknis'])],
-            'document_path' => 'required|file|max:5024|mimes:jpg,png,jpeg'
+            'document_path' => 'required|file|max:5024|mimes:jpg,png,jpeg,pdf'
         ]);
 
         if($validator->fails()) {
@@ -124,7 +124,7 @@ class KoorTeknisController extends Controller
         if ($request->hasFile('document_path')) {
             $file = $request->file('document_path');
             $extension = $file->getClientOriginalExtension();
-            $storedName = 'IMG_' . time() . '_' . uniqid() . '.' . $extension;
+            $storedName = 'FILE_' . time() . '_' . uniqid() . '.' . $extension;
             $path = $file->storeAs('uploads', $storedName, 'public');
             $url = Storage::url($path);
             $validatedData['document_path'] = $url;
